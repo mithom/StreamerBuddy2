@@ -44,7 +44,7 @@ module.exports = {
           provider: "github",
           owner: "mithom",
           vPrefixedTagName: true,
-          host: "github.com",
+          // host: "github.com", //enabling this for some reason makes it use the wrong url
           protocol: "https",
           releaseType: "draft",
           publishAutoUpdate: true
