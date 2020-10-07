@@ -2,6 +2,12 @@
   "name": "streamerbuddy2",
   "version": "0.1.0",
   "private": true,
+  "author": "mithom",
+  "description": "a dynamic tool to help a streamer with all his needs",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/mithom/StreamerBuddy2.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -12,6 +18,8 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "electron-log": "^4.2.4",
+    "electron-updater": "^4.3.5",
     "electron-window-state": "^5.0.3",
     "vue": "^3.0.0"
   },

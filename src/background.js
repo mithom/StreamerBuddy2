@@ -4,8 +4,30 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import windowStateKeeper from 'electron-window-state'
+import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
+//initiate the logger early so everything can use it
+autoUpdater.logger = log
+log.transports.file.level = 'info'
+
+//do all updater stuff
+// autoUpdater.on('checking-for-update', () => {
+// })
+// autoUpdater.on('update-available', (info) => {
+// })
+// autoUpdater.on('update-not-available', (info) => {
+// })
+// autoUpdater.on('error', (err) => {
+// })
+// autoUpdater.on('download-progress', (progressObj) => {
+// })
+// autoUpdater.on('update-downloaded', (info) => {
+//   autoUpdater.quitAndInstall();
+// })
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -75,6 +97,11 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+  //only check for updates outside of development
+  autoUpdater.autoDownload = false
+  autoUpdater.autoInstallOnAppQuit = false
+  let updateCheckResultPromise = autoUpdater.checkForUpdates()
+
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
@@ -84,6 +111,19 @@ app.on('ready', async () => {
     }
   }
   createWindow()
+  let updateCheckResult = await updateCheckResultPromise
+  console.log(updateCheckResult)
+  if(autoUpdater.currentVersion < updateCheckResult.version){
+    autoUpdater.signals.progress((progressObj) => {
+      let log_message = "Download speed: " + progressObj.bytesPerSecond;
+      log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+      log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+      console.log(log_message);
+    })
+    autoUpdater.signals.updateDownloaded(() => {
+      autoUpdater.quitAndInstall();
+    });
+  }
 })
 
 // Exit cleanly on request from parent process in development mode.
