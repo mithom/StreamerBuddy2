@@ -1,0 +1,8 @@
+owner: mithom
+repo: StreamerBuddy2
+provider: github
+vPrefixedTagName: true
+protocol: https
+releaseType: draft
+publishAutoUpdate: true
+updaterCacheDirName: streamerbuddy2-updater
