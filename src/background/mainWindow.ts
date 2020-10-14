@@ -16,11 +16,10 @@ export async function createAppWindow(windowState: windowStateKeeper.State) : Pr
             contextIsolation: true,
             nodeIntegration: false,
             // @ts-ignore
-            preload: path.join(__static, 'mainWindowPreload.js')
+            preload: path.join(__dirname, 'mainPreload.js')
         },
 
     });
-    console.log(__dirname)
     windowState.manage(win);
 
     await installExtension(VUEJS_DEVTOOLS);
