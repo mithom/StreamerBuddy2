@@ -38,7 +38,8 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
     "typescript": "~3.9.3",
-    "vue-cli-plugin-electron-builder": "~2.0.0-rc.4"
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
+    "vue-cli-plugin-tailwind": "~1.5.0"
   },
   "eslintConfig": {
     "root": true,
@@ -56,9 +57,12 @@
       "parser": "@typescript-eslint/parser"
     },
     "rules": {
-      "@typescript-eslint/no-explicit-any": ["error",{
-        "ignoreRestArgs": true
-      }]
+      "@typescript-eslint/no-explicit-any": [
+        "error",
+        {
+          "ignoreRestArgs": true
+        }
+      ]
     }
   },
   "browserslist": [
