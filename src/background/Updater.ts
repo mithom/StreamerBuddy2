@@ -22,10 +22,7 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
             downloadCancellationToken.cancel();
         });
         autoUpdater.signals.progress((progressObj) => {
-            let logMessage = `Download speed: ${progressObj.bytesPerSecond}`;
-            logMessage = `${logMessage} - Downloaded ${progressObj.percent}%`;
-            logMessage = `${logMessage} (${progressObj.transferred}/${progressObj.total})`;
-            console.log(logMessage);
+            win.webContents.send('download-progress', progressObj)
         });
         autoUpdater.signals.updateDownloaded(() => {
             if(installImmediately)
@@ -38,7 +35,7 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
 }
 
 function askWindowForUpdate(web: WebContents, version: SemVer): void{
-    web.send('ask-for-update', {version})
+    web.send('ask-for-update', version)
     ipcMain.handleOnce('download-update', downloadUpdate)
 }
 
