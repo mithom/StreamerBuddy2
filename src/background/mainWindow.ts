@@ -4,7 +4,7 @@ import installExtension, {VUEJS_DEVTOOLS} from "electron-devtools-installer";
 import {createProtocol} from "vue-cli-plugin-electron-builder/lib";
 import path from 'path';
 
-export async function createAppWindow(windowState: windowStateKeeper.State) : Promise<BrowserWindow> {
+export async function createAppWindow(windowState: windowStateKeeper.State): Promise<BrowserWindow> {
     // Create the browser window.
     const win = new BrowserWindow({
         x: windowState.x,
@@ -15,7 +15,6 @@ export async function createAppWindow(windowState: windowStateKeeper.State) : Pr
         webPreferences:{
             contextIsolation: true,
             nodeIntegration: false,
-            // @ts-ignore
             preload: path.join(__dirname, 'mainPreload.js')
         },
 

@@ -6,26 +6,15 @@ import {BrowserWindow, WebContents, ipcMain, IpcMainInvokeEvent} from 'electron'
 autoUpdater.logger = log;
 log.transports.file.level = 'info';
 
-export function registerAutoUpdater(){
-    ipcMain.handle('check-for-update', checkForAppUpdate)
+function installUpdate(): void{
+    autoUpdater.quitAndInstall();
+}
+function askWindowForInstall(win: BrowserWindow): void{
+    win.webContents.send('ask-for-install')
+    ipcMain.handleOnce('install-update', installUpdate)
 }
 
-async function checkForAppUpdate(event: IpcMainInvokeEvent){
-    autoUpdater.autoDownload = false;
-    autoUpdater.autoInstallOnAppQuit = false;
-    const updateCheckResult = await autoUpdater.checkForUpdates();
-    const newVersion = new SemVer(updateCheckResult.updateInfo.version);
-    if(autoUpdater.currentVersion < newVersion){
-        askWindowForUpdate(event.sender, newVersion)
-    }
-}
-
-function askWindowForUpdate(web: WebContents, version: SemVer){
-    web.send('ask-for-update', {version})
-    ipcMain.handleOnce('download-update', downloadUpdate)
-}
-
-async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boolean){
+async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boolean): Promise<void>{
     const win = BrowserWindow.fromWebContents(event.sender);
     if(win){
         const downloadCancellationToken = new CancellationToken();
@@ -33,10 +22,10 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
             downloadCancellationToken.cancel();
         });
         autoUpdater.signals.progress((progressObj) => {
-            let log_message = `Download speed: ${progressObj.bytesPerSecond}`;
-            log_message = `${log_message} - Downloaded ${progressObj.percent}%`;
-            log_message = `${log_message} (${progressObj.transferred}/${progressObj.total})`;
-            console.log(log_message);
+            let logMessage = `Download speed: ${progressObj.bytesPerSecond}`;
+            logMessage = `${logMessage} - Downloaded ${progressObj.percent}%`;
+            logMessage = `${logMessage} (${progressObj.transferred}/${progressObj.total})`;
+            console.log(logMessage);
         });
         autoUpdater.signals.updateDownloaded(() => {
             if(installImmediately)
@@ -48,11 +37,21 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
     }
 }
 
-function askWindowForInstall(win: BrowserWindow){
-    win.webContents.send('ask-for-install')
-    ipcMain.handleOnce('install-update', installUpdate)
+function askWindowForUpdate(web: WebContents, version: SemVer): void{
+    web.send('ask-for-update', {version})
+    ipcMain.handleOnce('download-update', downloadUpdate)
 }
 
-function installUpdate(){
-    autoUpdater.quitAndInstall();
+async function checkForAppUpdate(event: IpcMainInvokeEvent): Promise<void>{
+    autoUpdater.autoDownload = false;
+    autoUpdater.autoInstallOnAppQuit = false;
+    const updateCheckResult = await autoUpdater.checkForUpdates();
+    const newVersion = new SemVer(updateCheckResult.updateInfo.version);
+    if(autoUpdater.currentVersion < newVersion){
+        askWindowForUpdate(event.sender, newVersion)
+    }
+}
+
+export function registerAutoUpdater(): void{
+    ipcMain.handle('check-for-update', checkForAppUpdate)
 }

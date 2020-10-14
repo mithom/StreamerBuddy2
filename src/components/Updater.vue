@@ -5,7 +5,7 @@
     <button @click="download(false)">download</button>
     <button @click="download(true)">download and install</button>
   </template>
-  <p v-if="downloading">progress: {{progress}}</p>
+  <p v-if="downloading">progress: {{progress}}%</p>
   <template v-if="downloaded">
     <p>completed download</p>
     <button @click="install">install</button>
@@ -16,7 +16,6 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue'
-//eslint-disable-next-line no-unused-vars
 import {SemVer} from "semver";
 
 export default defineComponent({
@@ -30,33 +29,27 @@ export default defineComponent({
       version: null as SemVer | null
     }
   },
-  mounted() {
-    //@ts-ignore
+  mounted(){
     window.ipcRenderer.invoke('check-for-update')
 
-    //@ts-ignore
-    window.ipcRenderer.once('ask-for-update', (version: {version: SemVer})=>{
+    window.ipcRenderer.once('ask-for-update', (args: {version: SemVer})=>{
       this.updateAvailable = true;
-      this.version = version.version
-      console.log(version)
+      this.version = args.version
     })
   },
   methods:{
-    download(install: boolean){
+    download(install: boolean): void{
       if(!install){
-        // @ts-ignore
         window.ipcRenderer.once('ask-for-install',()=>{
             this.downloaded = true;
             this.downloading = false;
           });
       }
-      // @ts-ignore
       window.ipcRenderer.invoke('download-update', install);
       this.downloading = true;
-    },install(){
-      // @ts-ignore
+    },
+    install(): void{
       window.ipcRenderer.invoke('install-update')
-
     }
   }
 })

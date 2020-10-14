@@ -15,7 +15,7 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ]);
 
-async function createMainWindow(){
+async function createMainWindow(): Promise<void>{
   const mainWindowState = windowStateKeeper(
       { // default path = app.getPath('userData') = Appdata\Roaming\streamerbuddy2
         defaultWidth: 1200,

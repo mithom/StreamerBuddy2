@@ -10,7 +10,7 @@ contextBridge.exposeInMainWorld(
             if (validInvokeChannels.includes(channel))
               return ipcRenderer.invoke(channel, ...args)
         },
-        once: (channel: string, func: (...args: any[]) => any) => {
+        once: (channel: string, func: (...args: any[]) => void) => {
           if(validReceiveChannels.includes(channel))
             // Deliberately strip event as it includes `sender`
             ipcRenderer.once(channel,(event: IpcRendererEvent, ...args: any[])=>func(...args))
