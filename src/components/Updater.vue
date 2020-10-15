@@ -73,7 +73,7 @@ export default defineComponent({
       window.ipcRenderer.removeListener('download-progress', this.setProgress);
       window.ipcRenderer.invoke('install-update');
     },
-    setProgress(progressObj: ProgressInfo){
+    setProgress(progressObj: ProgressInfo): void{
       this.progress = progressObj;
     },
     toMB(bytes: number): string{
