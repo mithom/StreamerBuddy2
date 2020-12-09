@@ -3,9 +3,9 @@ import {IpcRendererEvent, contextBridge, ipcRenderer} from "electron";
 const validInvokeChannels = ['check-for-update', 'download-update','install-update'];
 const validReceiveChannels = ['ask-for-update','ask-for-install', 'download-progress'];
 
-contextBridge.exposeInMainWorld(
-    'ipcRenderer',
-    {
+// contextBridge.exposeInMainWorld(
+export const ipcKey = 'ipcRenderer';
+export const ipcApi = {
         invoke: (channel: string, ...args: any[]) => {
             if (validInvokeChannels.includes(channel))
               return ipcRenderer.invoke(channel, ...args)
@@ -26,4 +26,5 @@ contextBridge.exposeInMainWorld(
                 ipcRenderer.removeListener(channel,(event: IpcRendererEvent, ...args: any[])=>func(...args))
         }
     }
-)
+
+// )

@@ -5,10 +5,12 @@ module.exports = {
     // defaultLineHeights: true,
     // standardFontWeights: true
   },
-  purge: [],
+  purge: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {}
   },
-  variants: {},
+  variants: {
+    extend: {},
+  },
   plugins: []
 }

@@ -50,5 +50,6 @@ async function checkForAppUpdate(event: IpcMainInvokeEvent): Promise<void>{
 }
 
 export function registerAutoUpdater(): void{
-    ipcMain.handle('check-for-update', checkForAppUpdate)
+    if(import.meta.env.PROD)
+        ipcMain.handle('check-for-update', checkForAppUpdate)
 }

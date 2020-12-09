@@ -1,76 +1,40 @@
 {
-  "name": "streamerbuddy2",
+  "name": "vite-electron-builder",
   "version": "0.0.1",
   "private": true,
-  "description": "a dynamic tool to help a streamer with all his needs",
-  "author": "mithom",
+  "main": "dist/source/main/background.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
-  },
-  "main": "background.js",
-  "dependencies": {
-    "electron-log": "^4.2.4",
-    "electron-updater": "^4.3.5",
-    "electron-window-state": "^5.0.3",
-    "semver": "^7.3.2",
-    "vue": "^3.0.4"
+    "build": "yarn build:main && yarn build:renderer && yarn build:preload",
+    "build:main": "vite build --config ./config/main.vite.js",
+    "build:preload": "vite build --config ./config/preload.vite.js",
+    "build:renderer": "vite build --config ./config/renderer.vite.js",
+    "watch": "yarn watch:build:main && yarn watch:build:renderer && yarn watch:build:preload",
+    "watch:build:main": "nodemon --exec \"yarn build:main -- --mode development\" --watch src/main -e ts",
+    "watch:build:preload": "nodemon --exec \"yarn build:preload -- --mode development\" --watch src/preload -e ts",
+    "watch:build:renderer": "vite serve --config ./config/renderer.vite.js",
+    "watch:electron": "nodemon --exec \"electron .\" --watch dist/source/main --watch dist/source/preload",
+    "electron": "electron .",
+    "electron-builder": "electron-builder build --config ./config/electron-builder.js"
   },
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-typescript": "^5.0.2",
-    "babel-eslint": "^10.1.0",
-    "electron": "^11.0.4",
+    "@types/electron-window-state": "^2.0.34",
+    "@vuedx/typecheck": "^0.3.1-insiders-1607121235.0",
+    "electron": "^11.0.3",
+    "electron-builder": "^22.9.1",
     "electron-devtools-installer": "^3.1.1",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0-0",
-    "typescript": "~3.9.3",
-    "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
-    "vue-cli-plugin-tailwind": "~1.5.0"
+    "typescript": "^4.1.2",
+    "vite": "^1.0.0-rc.13",
+    "autoprefixer": "9",
+    "postcss": "7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "plugin:@typescript-eslint/recommended",
-      "eslint:recommended",
-      "@vue/typescript"
-    ],
-    "parser": "vue-eslint-parser",
-    "parserOptions": {
-      "parser": "@typescript-eslint/parser"
-    },
-    "rules": {
-      "@typescript-eslint/no-explicit-any": [
-        "error",
-        {
-          "ignoreRestArgs": true
-        }
-      ]
-    }
+  "dependencies": {
+    "electron-log": "^4.3.0",
+    "electron-updater": "^4.3.5",
+    "electron-window-state": "^5.0.3"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mithom/StreamerBuddy2.git"
+  "optionalDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

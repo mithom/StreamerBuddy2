@@ -1,10 +1,8 @@
 'use strict';
 import { app, protocol, BrowserWindow } from 'electron'
-import windowStateKeeper from 'electron-window-state'
-import { createAppWindow } from '@/background/mainWindow'
-import { registerAutoUpdater } from "@/background/Updater";
-
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const windowStateKeeper = require('electron-window-state')
+import { createAppWindow } from './mainWindow'
+import { registerAutoUpdater } from "./Updater";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -24,12 +22,11 @@ async function createMainWindow(): Promise<void>{
       });
 
   win = await createAppWindow(mainWindowState)
-  if(win){
-    win.on('closed', () => {
-      win = null;
-    });
-  }
+  win.on('closed', () => {
+    win = null;
+  });
 }
+
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -39,24 +36,27 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.on('activate', async () => {
+app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
-    await createMainWindow()
+    createMainWindow()
+        .catch((err) => console.error('activate window:', err))
   }
 });
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', async () => {
-  registerAutoUpdater();
-  await createMainWindow();
-});
+app.whenReady()
+    .then(async () => {
+        registerAutoUpdater();
+        await createMainWindow();
+    })
+    .catch((err) => console.error('Create window:', err))
 
 // Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
+if (import.meta.env.DEV) {
   if (process.platform === 'win32') {
     process.on('message', (data) => {
       if (data === 'graceful-exit') {
