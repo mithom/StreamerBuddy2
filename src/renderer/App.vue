@@ -1,10 +1,10 @@
 <template>
-  <Updater/>
+  <Updater />
   <img
     alt="Vue logo"
     src="./assets/logo.png"
   >
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App + Electron-builder + Vite"/>
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App + Electron-builder + Vite" />
 </template>
 
 <script lang="ts">
