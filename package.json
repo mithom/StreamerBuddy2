@@ -20,7 +20,7 @@
     "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat@^2.0.1",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/electron-window-state": "^2.0.34",
-    "@vuedx/typecheck": "^0.3.1-insiders-1607121235.0",
+    "@vuedx/typecheck": "^0.3.1-insiders-1607577772.0",
     "autoprefixer": "^9.8.6",
     "electron": "^11.0.3",
     "electron-builder": "^22.9.1",
