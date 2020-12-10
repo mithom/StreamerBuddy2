@@ -1,6 +1,6 @@
 'use strict';
 import { app, protocol, BrowserWindow } from 'electron'
-const windowStateKeeper = require('electron-window-state')
+import windowStateKeeper from 'electron-window-state'
 import { createAppWindow } from './mainWindow'
 import { registerAutoUpdater } from "./Updater";
 

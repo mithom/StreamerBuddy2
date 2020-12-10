@@ -1,6 +1,8 @@
 module.exports = {
   root: true,
-
+  rules:{
+    "@typescript-eslint/no-explicit-any": ["error", { "ignoreRestArgs": true }]
+  },
   env: {
     es2021: true,
     node: true,
