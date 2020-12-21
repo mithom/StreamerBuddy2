@@ -22,7 +22,7 @@
     "@types/electron-window-state": "^2.0.34",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.9.1",
-    "@vuedx/typecheck": "^0.3.1-insiders-1607577772.0",
+    "@vuedx/typecheck": "^0.3.1-insiders-1608294809.0",
     "autoprefixer": "^9.8.6",
     "electron": "^11.0.3",
     "electron-builder": "^22.9.1",
