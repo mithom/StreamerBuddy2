@@ -5,13 +5,13 @@
   "main": "dist/source/main/background.js",
   "scripts": {
     "build": "npm run build:main && npm run build:renderer && npm run build:preload",
-    "build:main": "vite build --config ./config/main.vite.js",
-    "build:preload": "vite build --config ./config/preload.vite.js",
-    "build:renderer": "vite build --config ./config/renderer.vite.js",
+    "build:main": "vite build --config ./config/main.vite.ts",
+    "build:preload": "vite build --config ./config/preload.vite.ts",
+    "build:renderer": "vite build --config ./config/renderer.vite.ts",
     "watch": "npm run watch:build:main && npm run watch:build:renderer && npm run watch:build:preload",
     "watch:build:main": "nodemon --exec \"npm run build:main -- --mode development\" --watch src/main -e ts",
     "watch:build:preload": "nodemon --exec \"npm run build:preload -- --mode development\" --watch src/preload -e ts",
-    "watch:build:renderer": "vite serve --config ./config/renderer.vite.js",
+    "watch:build:renderer": "vite serve --config ./config/renderer.vite.ts",
     "watch:electron": "nodemon --exec \"electron .\" --watch dist/source/main --watch dist/source/preload",
     "electron": "electron .",
     "electron-builder": "electron-builder build --config ./config/electron-builder.js"
@@ -20,24 +20,27 @@
     "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat@^2.0.1",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/electron-window-state": "^2.0.34",
-    "@typescript-eslint/eslint-plugin": "^4.9.1",
-    "@typescript-eslint/parser": "^4.9.1",
-    "@vuedx/typecheck": "^0.3.1-insiders-1607577772.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
+    "@vuedx/typecheck": "^0.6.3",
     "autoprefixer": "^9.8.6",
-    "electron": "^11.0.3",
+    "electron": "^11.2.1",
     "electron-builder": "^22.9.1",
     "electron-devtools-installer": "^3.1.1",
-    "eslint": "^7.15.0",
-    "eslint-plugin-vue": "^7.2.0",
+    "eslint": "^7.18.0",
+    "eslint-plugin-vue": "^7.5.0",
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
-    "typescript": "^4.1.2",
-    "vite": "^1.0.0-rc.13"
+    "typescript": "^4.1.3",
+    "vite": "^2.0.0-beta.48",
+    "@vitejs/plugin-vue": "^1.1.2"
   },
   "dependencies": {
-    "electron-log": "^4.3.0",
+    "@vue/compiler-sfc": "^3.0.5",
+    "electron-log": "^4.3.1",
     "electron-updater": "^4.3.5",
-    "electron-window-state": "^5.0.3"
+    "electron-window-state": "^5.0.3",
+    "vue": "^3.0.5"
   },
   "optionalDependencies": {
     "nodemon": "^2.0.6"
