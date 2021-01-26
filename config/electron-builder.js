@@ -1,18 +1,20 @@
 /**
  *
  * @type {import('electron-builder').Configuration}
+ * @see https://www.electron.build/configuration/configuration
  */
 module.exports = {
   directories: {
     output: 'dist/app',
-    buildResources: 'build'
+    buildResources: 'build',
+    app: 'dist/source',
   },
-  appId: "com.streamerbuddy.app",
-  productName: "Streamer Buddy",
+  appId: 'com.streamerbuddy.app',
+  productName: 'Streamer Buddy',
   win: {
-    target: ["nsis","zip","tar.gz"],
-    icon: "build/icon.ico",
-    signingHashAlgorithms: ["sha1","sha256"]
+    target: ['nsis','zip','tar.gz'],
+    icon: 'build/icon.ico',
+    signingHashAlgorithms: ['sha1','sha256'],
   },
   nsis: {
     oneClick: false,
@@ -24,7 +26,7 @@ module.exports = {
     differentialPackage: true,
     runAfterFinish: true,
     createStartMenuShortcut: true,
-    menuCategory: "StreamerBuddy"
+    menuCategory: 'StreamerBuddy',
   },
   mac: {
 
@@ -33,12 +35,12 @@ module.exports = {
 
   },
   publish: {
-    provider: "github",
-    owner: "mithom",
+    provider: 'github',
+    owner: 'mithom',
     vPrefixedTagName: true,
     // host: "github.com", //enabling this for some reason makes it use the wrong url
-    protocol: "https",
-    releaseType: "draft",
-    publishAutoUpdate: true
-  }
-}
+    protocol: 'https',
+    releaseType: 'draft',
+    publishAutoUpdate: true,
+  },
+};

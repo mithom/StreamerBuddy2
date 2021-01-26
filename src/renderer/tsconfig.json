@@ -3,13 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "/@/*": ["./*"]
     },
     "types": [
       "../../types/importMeta",
       "./types/shims-vue"
     ]
   },
-
   "files": ["./index.ts"]
 }

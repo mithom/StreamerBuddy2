@@ -1,27 +1,32 @@
-const {join} = require('path')
-import { defineConfig } from 'vite'
+const {join} = require('path');
+import { defineConfig } from 'vite';
 
 /**
  * Vite shared config, assign alias and root dir
  */
 export default defineConfig({
-  //entry: 'src/preload/index',
-  root: join(__dirname, '../src/preload'),
+  // root: join(process.cwd(), './src/preload'),
   alias: {
-    '@/': join(__dirname, '../src/preload'),
+    '/@/': join(process.cwd(), './src/preload'),
   },
   build:{
     assetsDir: '.',
     outDir: 'dist/source/preload',
+    minify: process.env.MODE === 'development' ? false : 'terser',
+    lib: {
+      entry: 'src/preload/index.ts',
+      formats: ['cjs'],
+    },
     rollupOptions: {
-      input: 'src/preload/index.ts',
-      external: require('./external-packages'),
+      // input: 'src/preload/index.ts',
+      external: require('./external-packages').default,
       output:{
         format: 'cjs',
-        entryFileNames: `[name].js`,
-        chunkFileNames: `[name].js`,
-        assetFileNames: `[name].[ext]`
+        entryFileNames: '[name].[format].js',
+        chunkFileNames: '[name].[format].js',
+        assetFileNames: '[name].[ext]',
       },
     },
+    emptyOutDir: true,
   },
-})
+});

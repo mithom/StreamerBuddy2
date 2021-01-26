@@ -4,6 +4,8 @@ import installExtension, {VUEJS_DEVTOOLS} from "electron-devtools-installer";
 import path, {join} from 'path';
 import {format} from "url";
 
+const env = import.meta.env;
+
 export async function createAppWindow(windowState: windowStateKeeper.State): Promise<BrowserWindow> {
     // Create the browser window.
     const win = new BrowserWindow({
@@ -16,14 +18,14 @@ export async function createAppWindow(windowState: windowStateKeeper.State): Pro
         webPreferences:{
             contextIsolation: true,
             nodeIntegration: false,
-            preload: path.join(__dirname, '../preload/index.js')
+            preload: path.join(__dirname, '../preload/index.cjs.js')
         },
 
     });
     windowState.manage(win);
 
-    const URL = import.meta.env.DEV
-        ? `http://localhost:3000`
+    const URL = env.MODE === 'development'
+        ? env.VITE_DEV_SERVER_URL
         : format({
             protocol: 'file',
             pathname: join(__dirname, '../renderer/index.html'),
@@ -33,8 +35,10 @@ export async function createAppWindow(windowState: windowStateKeeper.State): Pro
     await win.loadURL(URL)
     win.show()
 
-    if (import.meta.env.DEV) {
-        await installExtension(VUEJS_DEVTOOLS);
+    if (env.MODE === 'development') {
+        const VUEJS_DEVTOOLS_BETA = 'ljjemllljcmogpfapbkkighbhhppjdbg';
+        await installExtension(VUEJS_DEVTOOLS_BETA);
+        // await installExtension(VUEJS_DEVTOOLS);
         win.webContents.openDevTools()
     }
     return win

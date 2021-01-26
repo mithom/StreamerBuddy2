@@ -48,6 +48,9 @@
 import {defineComponent} from 'vue'
 import {SemVer} from "semver";
 import {ProgressInfo} from 'builder-util-runtime'
+import {useIpcRenderer} from '/@/use/electron';
+
+const {ipcRenderer} = useIpcRenderer()
 
 export default defineComponent({
   name: "Updater",
@@ -61,9 +64,9 @@ export default defineComponent({
     }
   },
   mounted(){
-    window.ipcRenderer.invoke<void>('check-for-update')
+    ipcRenderer.invoke<void>('check-for-update')
 
-    window.ipcRenderer.once('ask-for-update', (version: SemVer)=>{
+    ipcRenderer.once('ask-for-update', (version: SemVer)=>{
       this.updateAvailable = true;
       this.version = version
     })
@@ -71,18 +74,18 @@ export default defineComponent({
   methods:{
     download(install: boolean): void{
       if(!install){
-        window.ipcRenderer.once('ask-for-install',()=>{
+        ipcRenderer.once('ask-for-install',()=>{
             this.downloaded = true;
             this.downloading = false;
           });
       }
-      window.ipcRenderer.on('download-progress', this.setProgress);
-      window.ipcRenderer.invoke('download-update', install);
+      ipcRenderer.on('download-progress', this.setProgress);
+      ipcRenderer.invoke('download-update', install);
       this.downloading = true;
     },
     install(): void{
-      window.ipcRenderer.removeListener('download-progress', this.setProgress);
-      window.ipcRenderer.invoke('install-update');
+      ipcRenderer.removeListener('download-progress', this.setProgress);
+      ipcRenderer.invoke('install-update');
     },
     setProgress(progressObj: ProgressInfo): void{
       this.progress = progressObj;
