@@ -1,5 +1,6 @@
-const {join} = require('path');
+import {join} from 'path';
 import { defineConfig } from 'vite';
+import {node} from './electron-dep-versions';
 
 /**
  * Vite shared config, assign alias and root dir
@@ -10,6 +11,7 @@ export default defineConfig({
     '/@/': join(process.cwd(), './src/main') + '/',
   },
   build:{
+    target: `node${node}`,
     outDir: 'dist/source/main',
     assetsDir: '.',
     minify: process.env.MODE === 'development' ? false : 'terser',

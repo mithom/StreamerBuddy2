@@ -1,7 +1,7 @@
 import {autoUpdater, CancellationToken} from 'electron-updater';
 import log from 'electron-log';
 import {SemVer} from 'semver';
-import {BrowserWindow, WebContents, ipcMain, IpcMainInvokeEvent} from 'electron'
+import {BrowserWindow, WebContents, ipcMain, IpcMainInvokeEvent} from 'electron';
 
 autoUpdater.logger = log;
 log.transports.file.level = 'info';
@@ -10,8 +10,8 @@ function installUpdate(): void{
     autoUpdater.quitAndInstall();
 }
 function askWindowForInstall(win: BrowserWindow): void{
-    win.webContents.send('ask-for-install')
-    ipcMain.handleOnce('install-update', installUpdate)
+    win.webContents.send('ask-for-install');
+    ipcMain.handleOnce('install-update', installUpdate);
 }
 
 async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boolean): Promise<void>{
@@ -22,7 +22,7 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
             downloadCancellationToken.cancel();
         });
         autoUpdater.signals.progress((progressObj) => {
-            win.webContents.send('download-progress', progressObj)
+            win.webContents.send('download-progress', progressObj);
         });
         autoUpdater.signals.updateDownloaded(() => {
             if(installImmediately)
@@ -35,8 +35,8 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
 }
 
 function askWindowForUpdate(web: WebContents, version: SemVer): void{
-    web.send('ask-for-update', version)
-    ipcMain.handleOnce('download-update', downloadUpdate)
+    web.send('ask-for-update', version);
+    ipcMain.handleOnce('download-update', downloadUpdate);
 }
 
 async function checkForAppUpdate(event: IpcMainInvokeEvent): Promise<void>{
@@ -45,11 +45,11 @@ async function checkForAppUpdate(event: IpcMainInvokeEvent): Promise<void>{
     const updateCheckResult = await autoUpdater.checkForUpdates();
     const newVersion = new SemVer(updateCheckResult.updateInfo.version);
     if(autoUpdater.currentVersion < newVersion){
-        askWindowForUpdate(event.sender, newVersion)
+        askWindowForUpdate(event.sender, newVersion);
     }
 }
 
 export function registerAutoUpdater(): void{
     if(import.meta.env.PROD)
-        ipcMain.handle('check-for-update', checkForAppUpdate)
+        ipcMain.handle('check-for-update', checkForAppUpdate);
 }

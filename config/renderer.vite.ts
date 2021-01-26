@@ -1,6 +1,7 @@
-const {join} = require('path');
+import {join} from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import {chrome} from './electron-dep-versions';
 
 /**
  * Vite shared config, assign alias and root dir
@@ -8,10 +9,10 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
   root: join(process.cwd(), './src/renderer'),
   alias: {
-    '/@/': join(__dirname, './src/renderer') + '/',
+    '/@/': join(process.cwd(), './src/renderer') + '/',
   },
   build:{
-    target: 'es2015',
+    target: `chrome${chrome}`,
     polyfillDynamicImport: false,
     outDir: join(process.cwd(), 'dist/source/renderer'),
     assetsDir: '.',

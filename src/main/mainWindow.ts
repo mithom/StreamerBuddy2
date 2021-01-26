@@ -1,8 +1,8 @@
-import windowStateKeeper from "electron-window-state";
-import {BrowserWindow} from "electron";
-import installExtension, {VUEJS_DEVTOOLS} from "electron-devtools-installer";
+import windowStateKeeper from 'electron-window-state';
+import {BrowserWindow} from 'electron';
+//import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
 import path, {join} from 'path';
-import {format} from "url";
+import {format} from 'url';
 
 const env = import.meta.env;
 
@@ -17,8 +17,8 @@ export async function createAppWindow(windowState: windowStateKeeper.State): Pro
         show: false,
         webPreferences:{
             contextIsolation: true,
-            nodeIntegration: false,
-            preload: path.join(__dirname, '../preload/index.cjs.js')
+            // nodeIntegration: false,
+            preload: path.join(__dirname, '../preload/index.cjs.js'),
         },
 
     });
@@ -30,16 +30,14 @@ export async function createAppWindow(windowState: windowStateKeeper.State): Pro
             protocol: 'file',
             pathname: join(__dirname, '../renderer/index.html'),
             slashes: true,
-        })
+        });
 
-    await win.loadURL(URL)
-    win.show()
+    await win.loadURL(URL);
+    win.show();
 
     if (env.MODE === 'development') {
-        const VUEJS_DEVTOOLS_BETA = 'ljjemllljcmogpfapbkkighbhhppjdbg';
-        await installExtension(VUEJS_DEVTOOLS_BETA);
         // await installExtension(VUEJS_DEVTOOLS);
-        win.webContents.openDevTools()
+        win.webContents.openDevTools();
     }
-    return win
+    return win;
 }

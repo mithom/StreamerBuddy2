@@ -45,31 +45,31 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
-import {SemVer} from "semver";
-import {ProgressInfo} from 'builder-util-runtime'
-import {useIpcRenderer} from '/@/use/electron';
+import {defineComponent} from 'vue';
+import {SemVer} from 'semver';
+import {ProgressInfo} from 'builder-util-runtime';
+import {useElectron} from '/@/use/electron';
 
-const {ipcRenderer} = useIpcRenderer()
+const {ipcRenderer} = useElectron();
 
 export default defineComponent({
-  name: "Updater",
+  name: 'Updater',
   data(){
     return {
       updateAvailable: false,
       downloading: false,
       progress: null as ProgressInfo | null,
       downloaded: false,
-      version: null as SemVer | null
-    }
+      version: null as SemVer | null,
+    };
   },
   mounted(){
-    ipcRenderer.invoke<void>('check-for-update')
+    ipcRenderer.invoke<void>('check-for-update');
 
     ipcRenderer.once('ask-for-update', (version: SemVer)=>{
       this.updateAvailable = true;
-      this.version = version
-    })
+      this.version = version;
+    });
   },
   methods:{
     download(install: boolean): void{
@@ -97,9 +97,9 @@ export default defineComponent({
       if(num)
         return num.toFixed(2);
       return 0.0.toFixed(2);
-    }
+    },
   },
-})
+});
 
 </script>
 
