@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import HelloWorld from '/@/components/HelloWorld.vue'
-import Updater from "/@/components/Updater.vue";
+import { defineComponent } from 'vue';
+import HelloWorld from '/@/components/HelloWorld.vue';
+import Updater from '/@/components/Updater.vue';
 
 export default defineComponent({
   name: 'App',
@@ -18,7 +18,7 @@ export default defineComponent({
     Updater,
     HelloWorld,
   },
-})
+});
 </script>
 
 <style>

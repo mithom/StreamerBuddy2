@@ -3,7 +3,6 @@ import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
 import { createAppWindow } from './mainWindow';
 import { registerAutoUpdater } from './Updater';
-import installExtension from 'electron-devtools-installer';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,7 +16,7 @@ if(!gotTheLock){
     if(env.MODE === 'development'){
         app.whenReady()
             .then(()=>import('electron-devtools-installer'))
-            .then(()=>{
+            .then(({default: installExtension})=>{
                 const VUEJS_DEVTOOLS_BETA = 'ljjemllljcmogpfapbkkighbhhppjdbg';
                 return installExtension(VUEJS_DEVTOOLS_BETA);
             })

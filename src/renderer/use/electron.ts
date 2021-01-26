@@ -1,5 +1,4 @@
 import type {ExposedInMainWorld} from '../../preload';
-//import {ipcKey} from '../../preload'
 
 export function useElectron(): ExposedInMainWorld {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -64,6 +64,8 @@ export default defineComponent({
     };
   },
   mounted(){
+    console.log(import.meta.env.PROD);
+    if(import.meta.env.PROD)
     ipcRenderer.invoke<void>('check-for-update');
 
     ipcRenderer.once('ask-for-update', (version: SemVer)=>{
