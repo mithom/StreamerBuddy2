@@ -5,18 +5,29 @@
     src="./assets/logo.png"
   >
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App + Electron-builder + Vite" />
+  <ToggleButton
+    v-model:is-toggled-on="value"
+    :clickable-text="true"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import HelloWorld from '/@/components/HelloWorld.vue';
 import Updater from '/@/components/Updater.vue';
+import ToggleButton from '/@/components/elements/ToggleButton.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
+    ToggleButton,
     Updater,
     HelloWorld,
+  },
+  data(){
+    return {
+      value: true,
+    };
   },
 });
 </script>
