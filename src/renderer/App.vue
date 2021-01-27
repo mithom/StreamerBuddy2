@@ -9,6 +9,7 @@
     v-model:is-toggled-on="value"
     :clickable-text="true"
   />
+  <Card/>
 </template>
 
 <script lang="ts">
@@ -16,10 +17,12 @@ import { defineComponent } from 'vue';
 import HelloWorld from '/@/components/HelloWorld.vue';
 import Updater from '/@/components/Updater.vue';
 import ToggleButton from '/@/components/elements/ToggleButton.vue';
+import Card from '/@/components/elements/Card.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
+    Card,
     ToggleButton,
     Updater,
     HelloWorld,
