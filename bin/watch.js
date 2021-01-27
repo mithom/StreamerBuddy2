@@ -21,7 +21,11 @@ function startElectron() {
 
     const electronPath = require('electron');
 
-    return spawn(electronPath, [join(process.cwd(), 'dist/source/main/background.cjs.js')]);
+    const proc = spawn(electronPath, [join(process.cwd(), 'dist/source/main/background.cjs.js')]);
+
+    proc.stdout.pipe(process.stdout);
+
+    return proc;
 }
 
 
