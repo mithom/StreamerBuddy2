@@ -11,7 +11,13 @@
   />
   <Card
     :width="WidthType.HALF"
-  />
+  >
+    {{ count }}
+    <button
+      class="p-4 border-2"
+      @click="inc()"
+    />
+  </Card>
 </template>
 
 <script lang="ts">
@@ -21,6 +27,10 @@ import Updater from '/@/components/Updater.vue';
 import ToggleButton from '/@/components/elements/ToggleButton.vue';
 import Card from '/@/components/elements/Card.vue';
 import {WidthType} from '/@/lib/enums';
+// import {mapState} from 'vuex';
+import {useStore, MutationTypes} from '/@/store/store';
+
+const store = useStore();
 
 export default defineComponent({
   name: 'App',
@@ -35,6 +45,17 @@ export default defineComponent({
       value: true,
       WidthType,
     };
+  },
+  computed: {
+    count () {
+      // return this.$store.state.count;
+      return store.state.count;
+    },
+  },
+  methods:{
+    async inc(){
+      await store.dispatch(MutationTypes.INC_COUNTER);
+    },
   },
 });
 </script>

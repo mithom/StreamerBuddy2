@@ -6,8 +6,8 @@
       "/@/*": ["./*"]
     },
     "types": [
-      "../../types/importMeta",
-      "./types/shims-vue"
+      "./types/shims-vue",
+      "./types/shims-vuex"
     ]
   },
   "files": ["./index.ts"]
