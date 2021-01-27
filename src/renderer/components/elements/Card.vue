@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-// import {mapState} from 'vuex';
 import {defineComponent} from 'vue';
 import {WidthType} from '/@/lib/enums';
 
@@ -24,7 +23,7 @@ export default defineComponent({
       type: String,
       default: WidthType.THIRD,
       validator(val: string){
-        return Object.values(WidthType).includes(val);
+        return Object.keys(WidthType).map(k => WidthType[k]).includes(val);
       },
     },
   },
