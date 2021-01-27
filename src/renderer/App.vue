@@ -9,7 +9,9 @@
     v-model:is-toggled-on="value"
     :clickable-text="true"
   />
-  <Card/>
+  <Card
+    :width="WidthType.HALF"
+  />
 </template>
 
 <script lang="ts">
@@ -18,6 +20,7 @@ import HelloWorld from '/@/components/HelloWorld.vue';
 import Updater from '/@/components/Updater.vue';
 import ToggleButton from '/@/components/elements/ToggleButton.vue';
 import Card from '/@/components/elements/Card.vue';
+import {WidthType} from '/@/lib/enums';
 
 export default defineComponent({
   name: 'App',
@@ -30,6 +33,7 @@ export default defineComponent({
   data(){
     return {
       value: true,
+      WidthType,
     };
   },
 });

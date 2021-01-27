@@ -1,13 +1,13 @@
 <template>
   <div
-    :class="WidthType[width]"
+    :class="width"
     class="p-2"
   >
     <div
       class="bg-white shadow rounded h-auto p-4"
       style="min-height: 8rem"
     >
-      <slot>{{ WidthType[width] }} column</slot>
+      <slot>{{ width }} column</slot>
     </div>
   </div>
 </template>
@@ -24,14 +24,9 @@ export default defineComponent({
       type: String,
       default: WidthType.THIRD,
       validator(val: string){
-        return val in WidthType;
+        return Object.values(WidthType).includes(val);
       },
     },
-  },
-  data(){
-    return {
-      WidthType,
-    };
   },
 });
 </script>
