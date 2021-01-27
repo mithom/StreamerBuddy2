@@ -64,14 +64,14 @@ export default defineComponent({
     };
   },
   mounted(){
-    console.log(import.meta.env.PROD);
-    if(import.meta.env.PROD)
-    ipcRenderer.invoke<void>('check-for-update');
+    if(import.meta.env.PROD){
+      ipcRenderer.invoke<void>('check-for-update');
 
-    ipcRenderer.once('ask-for-update', (version: SemVer)=>{
-      this.updateAvailable = true;
-      this.version = version;
-    });
+      ipcRenderer.once('ask-for-update', (version: SemVer)=>{
+        this.updateAvailable = true;
+        this.version = version;
+      });
+    }
   },
   methods:{
     download(install: boolean): void{
