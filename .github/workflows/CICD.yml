@@ -17,6 +17,10 @@ on:
       - '.github'
       - '!.github/workflows/CICD.yml'
 
+defaults:
+  run:
+    shell: 'bash'
+
 jobs:
   skip-ci-check:
     runs-on: ubuntu-latest
@@ -78,24 +82,24 @@ jobs:
       # TODO: Install not all dependencies, but only those required for this workflow
       - run: npm ci
 
-    - uses: haya14busa/action-cond@v1
-      id: reporter
-      with:
-        cond: ${{ github.event_name == 'pull_request' }}
-        if_true: "github-pr-review"
-        if_false: "github-check"
+      - uses: haya14busa/action-cond@v1
+        id: reporter
+        with:
+          cond: ${{ github.event_name == 'pull_request' }}
+          if_true: "github-pr-review"
+          if_false: "github-check"
 
-    - uses: reviewdog/action-setup@v1
+      - uses: reviewdog/action-setup@v1
 
-    - run: npx --no-install @vuedx/vuedx-typecheck ./src/main --rdjson  | reviewdog -name vuedx-typecheck -f rdjson -fail-on-error -reporter=${{ steps.reporter.outputs.value }}
-      env:
-        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.github_token }}
-    - run: npx --no-install @vuedx/vuedx-typecheck ./src/preload --rdjson  | reviewdog -name vuedx-typecheck -f rdjson -fail-on-error -reporter=${{ steps.reporter.outputs.value }}
-      env:
-        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.github_token }}
-    - run: npx --no-install @vuedx/vuedx-typecheck ./src/renderer --rdjson  | reviewdog -name vuedx-typecheck -f rdjson -fail-on-error -reporter=${{ steps.reporter.outputs.value }}
-      env:
-        REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.github_token }}
+      - run: npx --no-install @vuedx/vuedx-typecheck ./src/main --rdjson  | reviewdog -name vuedx-typecheck -f rdjson -fail-on-error -reporter=${{ steps.reporter.outputs.value }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.github_token }}
+      - run: npx --no-install @vuedx/vuedx-typecheck ./src/preload --rdjson  | reviewdog -name vuedx-typecheck -f rdjson -fail-on-error -reporter=${{ steps.reporter.outputs.value }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.github_token }}
+      - run: npx --no-install @vuedx/vuedx-typecheck ./src/renderer --rdjson  | reviewdog -name vuedx-typecheck -f rdjson -fail-on-error -reporter=${{ steps.reporter.outputs.value }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.github_token }}
 
   test:
     needs: skip-ci-check
@@ -185,6 +189,7 @@ jobs:
         run: |
           mkdir ./build
           echo "$RELEASE_NOTES" > ./build/release-notes.md
+
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
