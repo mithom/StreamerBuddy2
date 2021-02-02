@@ -1,4 +1,5 @@
-# Overwrite
+![CI/CD](https://github.com/mithom/StreamerBuddy2/workflows/CI/CD/badge.svg?branch=master)
+# StreamerBuddy 2
 
 > Vite+Electron = 🔥
 
