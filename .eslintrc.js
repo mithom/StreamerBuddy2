@@ -36,7 +36,7 @@ module.exports = {
      * Just for beauty
      */
     quotes: ['warn', 'single'],
-    '@typescript-eslint/no-explicit-any': ['error', { 'ignoreRestArgs': true }]
+    '@typescript-eslint/no-explicit-any': ['error', { 'ignoreRestArgs': true }],
   },
-}
+};
 
