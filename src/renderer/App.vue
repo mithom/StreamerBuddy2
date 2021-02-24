@@ -15,13 +15,13 @@
     {{ count }}
     <button
       class="p-4 border-2"
-      @click="inc()"
+      @click="inc"
     />
   </Card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 import HelloWorld from '/@/components/HelloWorld.vue';
 import Updater from '/@/components/Updater.vue';
 import ToggleButton from '/@/components/elements/ToggleButton.vue';
@@ -37,10 +37,9 @@ export default defineComponent({
     Updater,
     HelloWorld,
   },
-  setup(){
+  setup(){ //better typescript support
     const store = useStore();
     const count = computed(()=>store.state.count);
-    // const value = ref(true);
 
     async function inc(){
       return await store.dispatch(ActionTypes.INC_COUNTER);
