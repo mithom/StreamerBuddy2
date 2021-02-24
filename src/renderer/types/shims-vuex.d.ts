@@ -20,7 +20,6 @@ export type Store = Omit<VuexStore<State>, 'commit' | 'getters', | 'dispatch'> &
 }
 
 declare module '@vue/runtime-core' {
-
     // provide typings for `this.$store`
     interface ComponentCustomProperties {
         $store: Store

@@ -21,16 +21,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import HelloWorld from '/@/components/HelloWorld.vue';
 import Updater from '/@/components/Updater.vue';
 import ToggleButton from '/@/components/elements/ToggleButton.vue';
 import Card from '/@/components/elements/Card.vue';
 import {WidthType} from '/@/lib/enums';
-// import {mapState} from 'vuex';
-import {useStore, MutationTypes} from '/@/store/store';
-
-const store = useStore();
+import {useStore, ActionTypes} from '/@/store/store';
 
 export default defineComponent({
   name: 'App',
@@ -40,22 +37,21 @@ export default defineComponent({
     Updater,
     HelloWorld,
   },
+  setup(){
+    const store = useStore();
+    const count = computed(()=>store.state.count);
+    // const value = ref(true);
+
+    async function inc(){
+      return await store.dispatch(ActionTypes.INC_COUNTER);
+    }
+
+    return {count, inc, WidthType};
+  },
   data(){
     return {
       value: true,
-      WidthType,
     };
-  },
-  computed: {
-    count () {
-      // return this.$store.state.count;
-      return store.state.count;
-    },
-  },
-  methods:{
-    async inc(){
-      await store.dispatch(MutationTypes.INC_COUNTER);
-    },
   },
 });
 </script>
