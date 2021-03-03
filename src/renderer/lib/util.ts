@@ -1,5 +1,5 @@
 export function toMB(bytes: number): string{
-    return `${this.round2(bytes/1024/1024)}MB`;
+    return `${round2(bytes/1024/1024)}MB`;
 }
 
 export function round2(num: number | null): string{
