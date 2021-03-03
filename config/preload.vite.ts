@@ -6,9 +6,10 @@ import {chrome} from './electron-dep-versions';
  * Vite shared config, assign alias and root dir
  */
 export default defineConfig({
-  // root: join(process.cwd(), './src/preload'),
-  alias: {
-    '/@/': join(process.cwd(), './src/preload'),
+  resolve:{
+    alias: {
+      '/@': join(process.cwd(), './src/preload'),
+    },
   },
   build:{
     target: `chrome${chrome}`,
@@ -20,7 +21,6 @@ export default defineConfig({
       formats: ['cjs'],
     },
     rollupOptions: {
-      // input: 'src/preload/index.ts',
       external: require('./external-packages').default,
       output:{
         format: 'cjs',

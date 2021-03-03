@@ -6,9 +6,10 @@ import {node} from './electron-dep-versions';
  * Vite shared config, assign alias and root dir
  */
 export default defineConfig({
-  //entry: 'src/main/background',
-  alias: {
-    '/@/': join(process.cwd(), './src/main') + '/',
+  resolve:{
+    alias: {
+      '/@': join(process.cwd(), './src/main'),
+    },
   },
   build:{
     target: `node${node}`,
@@ -20,7 +21,6 @@ export default defineConfig({
       formats: ['cjs'],
     },
     rollupOptions: {
-      // input: 'src/main/background.ts',
       output:{
         format: 'cjs',
         entryFileNames: '[name].[format].js',

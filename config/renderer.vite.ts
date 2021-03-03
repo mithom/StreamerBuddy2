@@ -8,8 +8,10 @@ import {chrome} from './electron-dep-versions';
  */
 export default defineConfig({
   root: join(process.cwd(), './src/renderer'),
-  alias: {
-    '/@/': join(process.cwd(), './src/renderer') + '/',
+  resolve:{
+    alias: {
+      '/@': join(process.cwd(), './src/renderer'),
+    },
   },
   build:{
     target: `chrome${chrome}`,
