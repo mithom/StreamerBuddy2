@@ -1,7 +1,7 @@
 import {autoUpdater, CancellationToken} from 'electron-updater';
 import log from 'electron-log';
 import {SemVer} from 'semver';
-import {BrowserWindow, WebContents, ipcMain, IpcMainInvokeEvent} from 'electron';
+import {BrowserWindow, ipcMain, IpcMainInvokeEvent} from 'electron';
 
 autoUpdater.logger = log;
 log.transports.file.level = 'info';
@@ -34,22 +34,19 @@ async function downloadUpdate(event: IpcMainInvokeEvent, installImmediately: boo
     }
 }
 
-function askWindowForUpdate(web: WebContents, version: SemVer): void{
-    web.send('ask-for-update', version);
-    ipcMain.handleOnce('download-update', downloadUpdate);
-}
-
-async function checkForAppUpdate(event: IpcMainInvokeEvent): Promise<void>{
+async function checkForAppUpdate(): Promise<SemVer|null>{
     autoUpdater.autoDownload = false;
     autoUpdater.autoInstallOnAppQuit = false;
     const updateCheckResult = await autoUpdater.checkForUpdates();
     const newVersion = new SemVer(updateCheckResult.updateInfo.version);
     if(autoUpdater.currentVersion < newVersion){
-        askWindowForUpdate(event.sender, newVersion);
+        ipcMain.handleOnce('download-update', downloadUpdate);
+        return newVersion;
     }
+    return null;
 }
 
 export function registerAutoUpdater(): void{
-    if(import.meta.env.PROD)
+    if(import.meta.env.DEV)
         ipcMain.handle('check-for-update', checkForAppUpdate);
 }

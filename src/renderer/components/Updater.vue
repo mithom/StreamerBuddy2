@@ -1,13 +1,13 @@
 <template>
   <transition name="slide-fade">
     <div
-      v-if="updateAvailable"
+      v-if="version"
       class="w-full h-12 absolute top-0 flex justify-center items-center bg-green-400 py-2 rounded-b-lg font-bold text-white"
     >
       <p class="mr-5">
-        new version available: {{ version?.version }}
+        new version available: {{ version.version }}
       </p>
-      <template v-if="!(downloading || downloaded)">
+      <template v-if="!(progress || downloaded)">
         <button
           class="btn-blue"
           @click="download(false)"
@@ -21,8 +21,8 @@
           download and install
         </button>
       </template>
-      <p v-if="downloading">
-        progress: {{ round2(progress?.percent) }}%  |  {{ toMB(progress?.transferred) }} / {{ toMB(progress?.total) }}  |  speed {{ toMB(progress?.bytesPerSecond) }}/s
+      <p v-if="progress & !downloaded">
+        progress: {{ round2(progress.percent) }}%  |  {{ toMB(progress.transferred) }} / {{ toMB(progress.total) }}  |  speed {{ toMB(progress.bytesPerSecond) }}/s
       </p>
       <template v-if="downloaded">
         <p class="mr-5">
@@ -38,7 +38,7 @@
       <a
         id="boxclose"
         class="boxclose"
-        @click="updateAvailable=false"
+        @click="version=null"
       />
     </div>
   </transition>
@@ -46,59 +46,28 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {SemVer} from 'semver';
-import {ProgressInfo} from 'builder-util-runtime';
-import {useElectron} from '/@/use/electron';
-
-const {ipcRenderer} = useElectron();
+import {ProgressInfo}    from 'builder-util-runtime';
+import {toMB, round2}                                               from '/@/lib/util';
+import {checkForUpdate, download, downloaded, install} from '/@/lib/UpdateService';
+import {ref}                                                        from 'vue';
 
 export default defineComponent({
   name: 'Updater',
+  async setup(){
+    const version = ref(await checkForUpdate());
+    return {toMB, round2, version, install, downloaded};
+  },
   data(){
     return {
-      updateAvailable: false,
-      downloading: false,
-      progress: null as ProgressInfo | null,
-      downloaded: false,
-      version: null as SemVer | null,
+      progress: {} as ProgressInfo,
     };
   },
-  mounted(){
-    if(import.meta.env.PROD){
-      ipcRenderer.invoke<void>('check-for-update');
-
-      ipcRenderer.once('ask-for-update', (version: SemVer)=>{
-        this.updateAvailable = true;
-        this.version = version;
-      });
-    }
-  },
   methods:{
-    download(install: boolean): void{
-      if(!install){
-        ipcRenderer.once('ask-for-install',()=>{
-            this.downloaded = true;
-            this.downloading = false;
-          });
-      }
-      ipcRenderer.on('download-progress', this.setProgress);
-      ipcRenderer.invoke('download-update', install);
-      this.downloading = true;
-    },
-    install(): void{
-      ipcRenderer.removeListener('download-progress', this.setProgress);
-      ipcRenderer.invoke('install-update');
-    },
     setProgress(progressObj: ProgressInfo): void{
       this.progress = progressObj;
     },
-    toMB(bytes: number): string{
-      return `${this.round2(bytes/1024/1024)}MB`;
-    },
-    round2(num: number | null): string{
-      if(num)
-        return num.toFixed(2);
-      return 0.0.toFixed(2);
+    download(install: boolean){
+      download(install, this.setProgress);
     },
   },
 });
