@@ -10,5 +10,5 @@
       "electron-devtools-installer"
     ]
   },
-  "files": ["./background.ts"]
+  "include": ["./**/*"]
 }
