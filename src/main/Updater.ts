@@ -1,4 +1,5 @@
-import {autoUpdater, CancellationToken} from 'electron-updater';
+import {autoUpdater} from 'electron-updater';
+import {CancellationToken} from 'builder-util-runtime';
 import log from 'electron-log';
 import {SemVer} from 'semver';
 import {BrowserWindow, ipcMain, IpcMainInvokeEvent} from 'electron';
