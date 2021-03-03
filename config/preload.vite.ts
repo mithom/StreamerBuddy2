@@ -8,7 +8,7 @@ import {chrome} from './electron-dep-versions';
 export default defineConfig({
   resolve:{
     alias: {
-      '/@': join(process.cwd(), './src/preload'),
+      '@': join(process.cwd(), './src/preload'),
     },
   },
   build:{

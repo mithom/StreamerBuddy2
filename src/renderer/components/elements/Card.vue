@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import {WidthType} from '/@/lib/enums';
+import {WidthType} from '@/lib/enums';
 
 export default defineComponent({
   name: 'Card',

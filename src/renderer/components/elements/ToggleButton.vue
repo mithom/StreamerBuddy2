@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import {uuidv4} from '/@/lib/UUID';
+import {uuidv4} from '@/lib/UUID';
 import {defineComponent} from 'vue';
 
 export default defineComponent({

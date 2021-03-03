@@ -10,7 +10,7 @@ export default defineConfig({
   root: join(process.cwd(), './src/renderer'),
   resolve:{
     alias: {
-      '/@': join(process.cwd(), './src/renderer'),
+      '@': join(process.cwd(), './src/renderer'),
     },
   },
   build:{

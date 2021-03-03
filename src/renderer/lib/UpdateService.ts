@@ -27,7 +27,7 @@ export function install(): void{
 }
 
 export async function checkForUpdate(): Promise<SemVer|null>{
-    if(import.meta.env.DEV){
+    if(import.meta.env.PROD){
         return await ipcRenderer.invoke<SemVer|null>('check-for-update');
     }
     return null;

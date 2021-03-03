@@ -8,7 +8,7 @@ import {node} from './electron-dep-versions';
 export default defineConfig({
   resolve:{
     alias: {
-      '/@': join(process.cwd(), './src/main'),
+      '@': join(process.cwd(), './src/main'),
     },
   },
   build:{

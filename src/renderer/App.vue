@@ -22,12 +22,12 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import HelloWorld from '/@/components/HelloWorld.vue';
-import Updater from '/@/components/Updater.vue';
-import ToggleButton from '/@/components/elements/ToggleButton.vue';
-import Card from '/@/components/elements/Card.vue';
-import {WidthType} from '/@/lib/enums';
-import {useStore, ActionTypes} from '/@/store/store';
+import HelloWorld from '@/components/HelloWorld.vue';
+import Updater from '@/components/Updater.vue';
+import ToggleButton from '@/components/elements/ToggleButton.vue';
+import Card from '@/components/elements/Card.vue';
+import {WidthType} from '@/lib/enums';
+import {useStore, ActionTypes} from '@/store/store';
 
 export default defineComponent({
   name: 'App',

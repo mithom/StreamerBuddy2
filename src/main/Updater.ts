@@ -48,6 +48,6 @@ async function checkForAppUpdate(): Promise<SemVer|null>{
 }
 
 export function registerAutoUpdater(): void{
-    if(import.meta.env.DEV)
+    if(import.meta.env.PROD)
         ipcMain.handle('check-for-update', checkForAppUpdate);
 }

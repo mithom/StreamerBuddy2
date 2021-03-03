@@ -47,9 +47,9 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import {ProgressInfo}    from 'builder-util-runtime';
-import {toMB, round2}                                               from '/@/lib/util';
-import {checkForUpdate, download, downloaded, install} from '/@/lib/UpdateService';
-import {ref}                                                        from 'vue';
+import {toMB, round2}    from '@/lib/util';
+import {checkForUpdate, download, downloaded, install} from '@/lib/UpdateService';
+import {ref}             from 'vue';
 
 export default defineComponent({
   name: 'Updater',
