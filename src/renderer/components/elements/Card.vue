@@ -13,18 +13,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, PropType} from 'vue';
 import {WidthType} from '@/lib/enums';
 
 export default defineComponent({
   name: 'Card',
   props: {
     width: {
-      type: String,
+      type: String as PropType<WidthType>,
       default: WidthType.THIRD,
-      validator(val: string){
-        return Object.keys(WidthType).map(k => WidthType[k]).includes(val);
-      },
     },
   },
 });
