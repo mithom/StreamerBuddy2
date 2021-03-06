@@ -18,16 +18,16 @@ export const ipcRenderer = {
     once: (channel: string, func: (...args: any[]) => void): void => {
       if(validReceiveChannels.includes(channel))
         // Deliberately strip event as it includes `sender`
-        ipcRenderer_.once(channel,(event: IpcRendererEvent, ...args: any[])=>func(...args));
+        ipcRenderer_.once(channel,(_event: IpcRendererEvent, ...args: any[])=>func(...args));
     },
     on: (channel: string, func: (...args: any[])=>void): void =>{
         if(validReceiveChannels.includes(channel))
             // Deliberately strip event as it includes `sender`
-            ipcRenderer_.on(channel,(event: IpcRendererEvent, ...args: any[])=>func(...args));
+            ipcRenderer_.on(channel,(_event: IpcRendererEvent, ...args: any[])=>func(...args));
     },
     removeListener: (channel: string, func: (...args: any[])=>void): void =>{
         if(validReceiveChannels.includes(channel))
             // Deliberately strip event as it includes `sender`
-            ipcRenderer_.removeListener(channel,(event: IpcRendererEvent, ...args: any[])=>func(...args));
+            ipcRenderer_.removeListener(channel,(_event: IpcRendererEvent, ...args: any[])=>func(...args));
     },
 };

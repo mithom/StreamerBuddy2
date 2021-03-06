@@ -1,8 +1,7 @@
 import windowStateKeeper from 'electron-window-state';
 import {BrowserWindow} from 'electron';
 //import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
-import path, {join} from 'path';
-import {format} from 'url';
+import path from 'path';
 
 const env = import.meta.env;
 
@@ -24,15 +23,11 @@ export async function createAppWindow(windowState: windowStateKeeper.State): Pro
     });
     windowState.manage(win);
 
-    const URL = env.MODE === 'development'
+    const pageURL = env.MODE === 'development'
         ? env.VITE_DEV_SERVER_URL
-        : format({
-            protocol: 'file',
-            pathname: join(__dirname, '../renderer/index.html'),
-            slashes: true,
-        });
+        : new URL('renderer/index.html', 'file://' + __dirname).toString();
 
-    await win.loadURL(URL);
+    await win.loadURL(pageURL);
     win.show();
 
     if (env.MODE === 'development') {
